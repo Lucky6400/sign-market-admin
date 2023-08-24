@@ -1,8 +1,44 @@
 import { Link } from 'react-router-dom';
 import LogoDark from '../../images/logo/logo-dark.svg';
 import Logo from '../../images/logo/logo.svg';
+import { useState, FormEvent } from 'react';
+
+interface User {
+  name: string;
+  email: string;
+  cpassword: string;
+  password: string;
+}
 
 const SignUp = () => {
+  const [userInfo, setUserInfo] = useState<User>({
+    name: "",
+    email: "",
+    password: "",
+    cpassword: ""
+  });
+
+  const registerUser = async (e: FormEvent) => {
+    try {
+      e.preventDefault();
+      const { cpassword, ...userInfo01 } = userInfo;
+
+      console.log(userInfo);
+      const response = await fetch(`${import.meta.env.VITE_BASE_API_URL}/users/register`, {
+        method: 'POST',
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(userInfo01)
+      });
+
+      const data = await response.json();
+      console.log(data)
+    } catch (error) {
+      console.log(error)
+    }
+
+  }
   return (
     <>
       <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
@@ -150,7 +186,7 @@ const SignUp = () => {
                 Sign Up to TailAdmin
               </h2>
 
-              <form>
+              <form onSubmit={registerUser}>
                 <div className="mb-4">
                   <label className="mb-2.5 block font-medium text-black dark:text-white">
                     Name
@@ -158,6 +194,7 @@ const SignUp = () => {
                   <div className="relative">
                     <input
                       type="text"
+                      onChange={e => setUserInfo(p => ({ ...p, name: e.target.value }))}
                       placeholder="Enter your full name"
                       className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                     />
@@ -194,6 +231,7 @@ const SignUp = () => {
                     <input
                       type="email"
                       placeholder="Enter your email"
+                      onChange={e => setUserInfo(p => ({ ...p, email: e.target.value }))}
                       className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                     />
 
@@ -224,6 +262,7 @@ const SignUp = () => {
                   <div className="relative">
                     <input
                       type="password"
+                      onChange={e => setUserInfo(p => ({ ...p, password: e.target.value }))}
                       placeholder="Enter your password"
                       className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                     />
@@ -259,6 +298,7 @@ const SignUp = () => {
                   <div className="relative">
                     <input
                       type="password"
+                      onChange={e => setUserInfo(p => ({ ...p, cpassword: e.target.value }))}
                       placeholder="Re-enter your password"
                       className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                     />

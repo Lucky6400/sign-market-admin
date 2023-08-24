@@ -1,8 +1,31 @@
 import { Link } from 'react-router-dom';
 import LogoDark from '../../images/logo/logo-dark.svg';
 import Logo from '../../images/logo/logo.svg';
+import { FormEvent, useState } from 'react';
 
 const SignIn = () => {
+  const [userInfo, setUserInfo] = useState({});
+
+  const loginUser = async (e: FormEvent) => {
+    try {
+      e.preventDefault();
+      console.log(userInfo);
+      const response = await fetch(`${import.meta.env.VITE_BASE_API_URL}/users/login`, {
+        method: 'POST',
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(userInfo)
+      });
+
+      const data = await response.json();
+      console.log(data)
+    } catch (error) {
+      console.log(error)
+    }
+
+  }
+
   return (
     <>
       <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
@@ -151,7 +174,7 @@ const SignIn = () => {
                 Sign In to TailAdmin
               </h2>
 
-              <form>
+              <form onSubmit={loginUser}>
                 <div className="mb-4">
                   <label className="mb-2.5 block font-medium text-black dark:text-white">
                     Email
@@ -159,6 +182,7 @@ const SignIn = () => {
                   <div className="relative">
                     <input
                       type="email"
+                      onChange={e => setUserInfo(p => ({ ...p, email: e.target.value }))}
                       placeholder="Enter your email"
                       className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                     />
@@ -185,11 +209,12 @@ const SignIn = () => {
 
                 <div className="mb-6">
                   <label className="mb-2.5 block font-medium text-black dark:text-white">
-                    Re-type Password
+                    Password
                   </label>
                   <div className="relative">
                     <input
                       type="password"
+                      onChange={e => setUserInfo(p => ({ ...p, password: e.target.value }))}
                       placeholder="6+ Characters, 1 Capital letter"
                       className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                     />

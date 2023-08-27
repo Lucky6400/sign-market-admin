@@ -1,18 +1,18 @@
-import CardFour from '../../components/CardFour.tsx';
-import CardOne from '../../components/CardOne.tsx';
-import CardThree from '../../components/CardThree.tsx';
-import CardTwo from '../../components/CardTwo.tsx';
-import ChartOne from '../../components/ChartOne.tsx';
-import ChartThree from '../../components/ChartThree.tsx';
-import ChartTwo from '../../components/ChartTwo.tsx';
-import ChatCard from '../../components/ChatCard.tsx';
-import MapOne from '../../components/MapOne.tsx';
+// import CardFour from '../../components/CardFour.tsx';
+// import CardOne from '../../components/CardOne.tsx';
+// import CardThree from '../../components/CardThree.tsx';
+// import CardTwo from '../../components/CardTwo.tsx';
+// import ChartOne from '../../components/ChartOne.tsx';
+// import ChartThree from '../../components/ChartThree.tsx';
+// import ChartTwo from '../../components/ChartTwo.tsx';
+// import ChatCard from '../../components/ChatCard.tsx';
+// import MapOne from '../../components/MapOne.tsx';
 import TableOne from '../../components/TableOne.tsx';
 
 const ECommerce = () => {
   return (
     <>
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7.5">
+      {/* <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7.5">
         <CardOne />
         <CardTwo />
         <CardThree />
@@ -24,10 +24,13 @@ const ECommerce = () => {
         <ChartTwo />
         <ChartThree />
         <MapOne />
-        <div className="col-span-12 xl:col-span-8">
+        <div className="col-span-12 xl:col-span-8 w-full">
           <TableOne />
         </div>
         <ChatCard />
+      </div> */}
+      <div className="w-full">
+        <TableOne />
       </div>
     </>
   );

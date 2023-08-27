@@ -2,12 +2,15 @@ import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import UserOne from '../images/user/user-01.png';
+import { useAppDispatch } from '../hooks/useRedux';
+import { loginDataReset } from '../actionandReducers/loginReducer/action';
 
 const DropdownUser = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const trigger = useRef<any>(null);
   const dropdown = useRef<any>(null);
+  const dispatch = useAppDispatch();
 
   // close on click outside
   useEffect(() => {
@@ -155,7 +158,10 @@ const DropdownUser = () => {
             </Link>
           </li>
         </ul>
-        <button className="flex items-center gap-3.5 py-4 px-6 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base">
+        <button
+          className="flex items-center gap-3.5 px-6 py-4 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base"
+          onClick={() => dispatch(loginDataReset())}
+        >
           <svg
             className="fill-current"
             width="22"

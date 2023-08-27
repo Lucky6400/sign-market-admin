@@ -14,6 +14,7 @@
     "url": "https://tailadmin.com"
   },
   "dependencies": {
+    "@reduxjs/toolkit": "^1.9.5",
     "apexcharts": "^3.37.0",
     "jsvectormap": "^1.5.1",
     "localforage": "^1.10.0",
@@ -21,6 +22,7 @@
     "react": "^18.2.0",
     "react-apexcharts": "^1.4.0",
     "react-dom": "^18.2.0",
+    "react-redux": "^8.1.2",
     "react-router-dom": "^6.8.1",
     "sort-by": "^0.0.2"
   },

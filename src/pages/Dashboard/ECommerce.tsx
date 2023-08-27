@@ -7,9 +7,21 @@
 // import ChartTwo from '../../components/ChartTwo.tsx';
 // import ChatCard from '../../components/ChatCard.tsx';
 // import MapOne from '../../components/MapOne.tsx';
+import { useEffect } from 'react';
 import TableOne from '../../components/TableOne.tsx';
+import { useAppDispatch, useAppSelector } from '../../hooks/useRedux.ts';
+import { fetchProductData } from '../../actionandReducers/productReducer/action.ts';
+import Loader from '../../common/Loader/index.tsx';
 
 const ECommerce = () => {
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(fetchProductData({}));
+  }, []);
+
+  const isLoading = useAppSelector((state) => state.productData?.isLoading);
+
   return (
     <>
       {/* <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7.5">
@@ -29,8 +41,9 @@ const ECommerce = () => {
         </div>
         <ChatCard />
       </div> */}
+
       <div className="w-full">
-        <TableOne />
+        {isLoading ? <Loader isSmall /> : <TableOne />}
       </div>
     </>
   );

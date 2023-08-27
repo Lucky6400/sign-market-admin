@@ -8,6 +8,7 @@ import Loader from './common/Loader';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useAppSelector } from './hooks/useRedux';
+import UploadProduct from './pages/upload';
 
 const Calendar = lazy(() => import('./pages/Calendar'));
 const Chart = lazy(() => import('./pages/Chart'));
@@ -57,6 +58,14 @@ function App() {
               element={
                 <Suspense fallback={<Loader />}>
                   <Calendar />
+                </Suspense>
+              }
+            />
+              <Route
+              path="/uploadProduct"
+              element={
+                <Suspense fallback={<Loader />}>
+                  <UploadProduct />
                 </Suspense>
               }
             />

@@ -1,16 +1,22 @@
-export interface IProduct {
+export interface IProductData {
   richDescription?: string;
-  image?: string;
+  image: string;
   images?: string[];
-  brand: string;
+  brand?: string;
   price: number;
   rating: number;
   numReviews?: number;
-  isFeatured: boolean;
+  isFeatured?: boolean;
   name: string;
   slug?: string;
   category?: string;
   description: string;
   countInStock: number;
   id: string;
+}
+
+export interface IProductReducerState {
+  isLoading: boolean;
+  error: string;
+  data: IProductData[];
 }

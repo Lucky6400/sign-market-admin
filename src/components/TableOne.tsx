@@ -1,15 +1,24 @@
-import BrandOne from '../images/brand/brand-01.svg';
-import BrandTwo from '../images/brand/brand-02.svg';
-import BrandThree from '../images/brand/brand-03.svg';
-import BrandFour from '../images/brand/brand-04.svg';
+import { Link } from 'react-router-dom';
+import { useAppSelector } from '../hooks/useRedux';
+
 import BrandFive from '../images/brand/brand-05.svg';
 
 const TableOne = () => {
+  const products = useAppSelector((state) => state?.productData?.data);
+
   return (
     <div className="w-full rounded-sm border border-stroke bg-white px-5 pb-2.5 pt-6 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
-      <h4 className="mb-6 text-xl font-semibold text-black dark:text-white">
-        Products
-      </h4>
+      <div className="mb-6 flex w-full items-center justify-between">
+        <h4 className=" text-xl font-semibold text-black dark:text-white">
+          Products
+        </h4>
+        <Link
+          to="/uploadProduct"
+          className="rounded-[8px] bg-[#24df2d] px-[10px] py-[5px] text-[#fff]  transition-all duration-300 ease-in-out hover:scale-[1.15] hover:opacity-70"
+        >
+          Add New
+        </Link>
+      </div>
 
       <div className="flex flex-col">
         <div className="grid grid-cols-3 rounded-sm bg-gray-2 dark:bg-meta-4 sm:grid-cols-5">
@@ -40,136 +49,55 @@ const TableOne = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-3 border-b border-stroke dark:border-strokedark sm:grid-cols-5">
-          <div className="flex items-center gap-3 p-2.5 xl:p-5">
-            <div className="flex-shrink-0">
-              <img src={BrandOne} alt="Brand" />
+        {products?.length > 0 ? (
+          products?.map((product, index) => (
+            <div className="grid grid-cols-3 sm:grid-cols-5" key={index}>
+              <div className="flex items-center gap-3 p-2.5 xl:p-5">
+                <div className="flex-shrink-0">
+                  <img
+                    src={product?.image || BrandFive}
+                    alt="Brand"
+                    className="h-[50px] w-[50px]"
+                  />
+                </div>
+                <p className="hidden text-black dark:text-white sm:block">
+                  {product?.name || '-'}
+                </p>
+              </div>
+
+              <div className="flex items-center justify-center p-2.5 xl:p-5">
+                <p className="text-black dark:text-white">
+                  {product?.price || '-'}
+                </p>
+              </div>
+
+              <div className="flex items-center justify-center p-2.5 xl:p-5">
+                <p className="text-meta-3">{product?.countInStock || 0}</p>
+              </div>
+
+              <div className="hidden items-center justify-center p-2.5 sm:flex xl:p-5">
+                <p className="text-black dark:text-white">
+                  {product?.brand || '-'}
+                </p>
+              </div>
+
+              <div className="hidden items-center justify-center gap-x-[15px] p-2.5 sm:flex xl:p-5">
+                <button className="rounded-[8px] bg-[#e91717] px-[10px] py-[5px] text-[#fff]  transition-all duration-300 ease-in-out hover:scale-[1.15] hover:opacity-70">
+                  Delete
+                </button>
+                <button className="rounded-[8px] bg-[#e91717] px-[10px] py-[5px] text-[#fff]  transition-all duration-300 ease-in-out hover:scale-[1.15] hover:opacity-70">
+                  Edit
+                </button>
+              </div>
             </div>
-            <p className="hidden text-black dark:text-white sm:block">Google</p>
-          </div>
-
-          <div className="flex items-center justify-center p-2.5 xl:p-5">
-            <p className="text-black dark:text-white">3.5K</p>
-          </div>
-
-          <div className="flex items-center justify-center p-2.5 xl:p-5">
-            <p className="text-meta-3">$5,768</p>
-          </div>
-
-          <div className="hidden items-center justify-center p-2.5 sm:flex xl:p-5">
-            <p className="text-black dark:text-white">590</p>
-          </div>
-
-          <div className="hidden items-center justify-center p-2.5 sm:flex xl:p-5">
-            <p className="text-meta-5">4.8%</p>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-3 border-b border-stroke dark:border-strokedark sm:grid-cols-5">
-          <div className="flex items-center gap-3 p-2.5 xl:p-5">
-            <div className="flex-shrink-0">
-              <img src={BrandTwo} alt="Brand" />
-            </div>
-            <p className="hidden text-black dark:text-white sm:block">
-              Twitter
+          ))
+        ) : (
+          <div className="flex items-center justify-center">
+            <p className="text-center text-[20px] font-[400] text-[#000]">
+              No items found
             </p>
           </div>
-
-          <div className="flex items-center justify-center p-2.5 xl:p-5">
-            <p className="text-black dark:text-white">2.2K</p>
-          </div>
-
-          <div className="flex items-center justify-center p-2.5 xl:p-5">
-            <p className="text-meta-3">$4,635</p>
-          </div>
-
-          <div className="hidden items-center justify-center p-2.5 sm:flex xl:p-5">
-            <p className="text-black dark:text-white">467</p>
-          </div>
-
-          <div className="hidden items-center justify-center p-2.5 sm:flex xl:p-5">
-            <p className="text-meta-5">4.3%</p>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-3 border-b border-stroke dark:border-strokedark sm:grid-cols-5">
-          <div className="flex items-center gap-3 p-2.5 xl:p-5">
-            <div className="flex-shrink-0">
-              <img src={BrandThree} alt="Brand" />
-            </div>
-            <p className="hidden text-black dark:text-white sm:block">Github</p>
-          </div>
-
-          <div className="flex items-center justify-center p-2.5 xl:p-5">
-            <p className="text-black dark:text-white">2.1K</p>
-          </div>
-
-          <div className="flex items-center justify-center p-2.5 xl:p-5">
-            <p className="text-meta-3">$4,290</p>
-          </div>
-
-          <div className="hidden items-center justify-center p-2.5 sm:flex xl:p-5">
-            <p className="text-black dark:text-white">420</p>
-          </div>
-
-          <div className="hidden items-center justify-center p-2.5 sm:flex xl:p-5">
-            <p className="text-meta-5">3.7%</p>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-3 border-b border-stroke dark:border-strokedark sm:grid-cols-5">
-          <div className="flex items-center gap-3 p-2.5 xl:p-5">
-            <div className="flex-shrink-0">
-              <img src={BrandFour} alt="Brand" />
-            </div>
-            <p className="hidden text-black dark:text-white sm:block">Vimeo</p>
-          </div>
-
-          <div className="flex items-center justify-center p-2.5 xl:p-5">
-            <p className="text-black dark:text-white">1.5K</p>
-          </div>
-
-          <div className="flex items-center justify-center p-2.5 xl:p-5">
-            <p className="text-meta-3">$3,580</p>
-          </div>
-
-          <div className="hidden items-center justify-center p-2.5 sm:flex xl:p-5">
-            <p className="text-black dark:text-white">389</p>
-          </div>
-
-          <div className="hidden items-center justify-center p-2.5 sm:flex xl:p-5">
-            <p className="text-meta-5">2.5%</p>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-3 sm:grid-cols-5">
-          <div className="flex items-center gap-3 p-2.5 xl:p-5">
-            <div className="flex-shrink-0">
-              <img src={BrandFive} alt="Brand" />
-            </div>
-            <p className="hidden text-black dark:text-white sm:block">
-              Facebook
-            </p>
-          </div>
-
-          <div className="flex items-center justify-center p-2.5 xl:p-5">
-            <p className="text-black dark:text-white">1.2K</p>
-          </div>
-
-          <div className="flex items-center justify-center p-2.5 xl:p-5">
-            <p className="text-meta-3">$2,740</p>
-          </div>
-
-          <div className="hidden items-center justify-center p-2.5 sm:flex xl:p-5">
-            <p className="text-black dark:text-white">230</p>
-          </div>
-
-          <div className="hidden items-center justify-center p-2.5 sm:flex xl:p-5">
-            <button className="rounded-[8px] bg-[#e91717] px-[10px] py-[5px] text-[#fff]  transition-all duration-300 ease-in-out hover:scale-[1.15] hover:opacity-70">
-              Delete
-            </button>
-          </div>
-        </div>
+        )}
       </div>
     </div>
   );

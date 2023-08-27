@@ -14,9 +14,18 @@ export interface IProductData {
   countInStock: number;
   id: string;
 }
+export interface IProductUploadResponse {
+  status: number;
+  message: string;
+}
 
 export interface IProductReducerState {
   isLoading: boolean;
   error: string;
   data: IProductData[];
+  upload: {
+    isUploading: boolean;
+    error: string;
+    data: IProductUploadResponse;
+  };
 }

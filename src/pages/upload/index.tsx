@@ -1,6 +1,79 @@
+import { useCallback, useMemo, useState } from 'react';
 import Breadcrumb from '../../components/Breadcrumb';
+import { IProductPayloadData } from '../../interface/product';
+import { useAppDispatch } from '../../hooks/useRedux';
+import { useNavigate } from 'react-router-dom';
+import { postProductData } from '../../actionandReducers/productReducer/action';
+import { toast } from 'react-toastify';
 
 const UploadProduct = () => {
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const [uploadData, setUploadData] = useState<IProductPayloadData>({
+    name: '',
+    description: '',
+    image: null,
+    brand: '',
+    price: 0,
+    countInStock: 0,
+  });
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedFile = e.target.files?.[0];
+    console.log(selectedFile);
+    setUploadData({ ...uploadData, image: selectedFile! });
+  };
+
+  const handleCancel = () => {
+    setUploadData({
+      name: '',
+      description: '',
+      image: null,
+      brand: '',
+      price: 0,
+      countInStock: 0,
+    });
+  };
+
+  const handleSubmit = useCallback(() => {
+    console.log('dispatch');
+    dispatch(
+      postProductData({
+        payload: uploadData,
+        onSuccessCb: () => {
+          navigate('/');
+          toast.success('Product Uploaded Successfully');
+        },
+        onFailureCb: (message) => toast.error(message),
+      })
+    );
+  }, [
+    uploadData?.name,
+    uploadData?.brand,
+    uploadData?.description,
+    uploadData?.image,
+    uploadData?.price,
+    uploadData?.countInStock,
+  ]);
+
+  const isButtonDisabled = useMemo(() => {
+    return (
+      !uploadData?.name ||
+      !uploadData?.brand ||
+      !uploadData?.description ||
+      !uploadData?.image ||
+      !uploadData?.price ||
+      !uploadData?.countInStock
+    );
+  }, [
+    uploadData?.name,
+    uploadData?.brand,
+    uploadData?.description,
+    uploadData?.image,
+    uploadData?.price,
+    uploadData?.countInStock,
+  ]);
+
   return (
     <>
       <div className="mx-auto max-w-[1290px]">
@@ -30,8 +103,14 @@ const UploadProduct = () => {
                           type="text"
                           name="fullName"
                           id="fullName"
-                          placeholder="Devid Jhon"
-                          defaultValue="Devid Jhon"
+                          placeholder="Enter Name"
+                          value={uploadData.name}
+                          onChange={(e) =>
+                            setUploadData((prevState) => ({
+                              ...prevState,
+                              name: e.target.value,
+                            }))
+                          }
                         />
                       </div>
                     </div>
@@ -39,17 +118,23 @@ const UploadProduct = () => {
                     <div className="w-full sm:w-1/2">
                       <label
                         className="mb-3 block text-sm font-medium text-black dark:text-white"
-                        htmlFor="phoneNumber"
+                        htmlFor="price"
                       >
                         Price
                       </label>
                       <input
                         className="w-full rounded border border-stroke bg-gray px-4.5 py-3 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
-                        type="text"
-                        name="phoneNumber"
-                        id="phoneNumber"
-                        placeholder="+990 3343 7865"
-                        defaultValue="+990 3343 7865"
+                        type="number"
+                        name="price"
+                        id="price"
+                        placeholder="Enter Price"
+                        value={uploadData.price}
+                        onChange={(e) =>
+                          setUploadData((prevState) => ({
+                            ...prevState,
+                            price: Number(e.target.value),
+                          }))
+                        }
                       />
                     </div>
                   </div>
@@ -57,18 +142,24 @@ const UploadProduct = () => {
                     <div className="w-full sm:w-1/2">
                       <label
                         className="mb-3 block text-sm font-medium text-black dark:text-white"
-                        htmlFor="fullName"
+                        htmlFor="stock"
                       >
                         Stock
                       </label>
                       <div className="relative">
                         <input
                           className="w-full rounded border border-stroke bg-gray px-[15px] py-3 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
-                          type="text"
-                          name="fullName"
-                          id="fullName"
-                          placeholder="Devid Jhon"
-                          defaultValue="Devid Jhon"
+                          type="number"
+                          name="stock"
+                          id="stock"
+                          placeholder="Enter Stock"
+                          value={uploadData.countInStock}
+                          onChange={(e) =>
+                            setUploadData((prevState) => ({
+                              ...prevState,
+                              countInStock: Number(e.target.value),
+                            }))
+                          }
                         />
                       </div>
                     </div>
@@ -76,17 +167,23 @@ const UploadProduct = () => {
                     <div className="w-full sm:w-1/2">
                       <label
                         className="mb-3 block text-sm font-medium text-black dark:text-white"
-                        htmlFor="phoneNumber"
+                        htmlFor="brand"
                       >
                         Brand
                       </label>
                       <input
                         className="w-full rounded border border-stroke bg-gray px-4.5 py-3 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
                         type="text"
-                        name="phoneNumber"
-                        id="phoneNumber"
-                        placeholder="+990 3343 7865"
-                        defaultValue="+990 3343 7865"
+                        name="brand"
+                        id="brand"
+                        placeholder="Enter Brand"
+                        value={uploadData.brand}
+                        onChange={(e) =>
+                          setUploadData((prevState) => ({
+                            ...prevState,
+                            brand: e.target.value,
+                          }))
+                        }
                       />
                     </div>
                   </div>
@@ -94,7 +191,7 @@ const UploadProduct = () => {
                   <div className="mb-5.5">
                     <label
                       className="mb-3 block text-sm font-medium text-black dark:text-white"
-                      htmlFor="Username"
+                      htmlFor="description"
                     >
                       Description
                     </label>
@@ -132,11 +229,17 @@ const UploadProduct = () => {
 
                       <textarea
                         className="w-full rounded border border-stroke bg-gray py-3 pl-11.5 pr-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
-                        name="bio"
-                        id="bio"
+                        name="description"
+                        id="description"
                         rows={2}
                         placeholder="Write your description here"
-                        defaultValue="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque posuere fermentum urna, eu condimentum mauris tempus ut. Donec fermentum blandit aliquet."
+                        value={uploadData.description}
+                        onChange={(e) =>
+                          setUploadData((prevState) => ({
+                            ...prevState,
+                            description: e.target.value,
+                          }))
+                        }
                       ></textarea>
                     </div>
                     <div
@@ -147,6 +250,7 @@ const UploadProduct = () => {
                         type="file"
                         accept="image/*"
                         className="absolute inset-0 z-50 m-0 h-full w-full cursor-pointer p-0 opacity-0 outline-none"
+                        onChange={(e) => handleFileChange(e)}
                       />
                       <div className="flex flex-col items-center justify-center space-y-3">
                         <span className="flex h-10 w-10 items-center justify-center rounded-full border border-stroke bg-white dark:border-strokedark dark:bg-boxdark">
@@ -182,7 +286,7 @@ const UploadProduct = () => {
                           or drag and drop
                         </p>
                         <p className="mt-1.5">SVG, PNG, JPG or GIF</p>
-                        <p>(max, 800 X 800px)</p>
+                        <p>(max, 1800 X 800px)</p>
                       </div>
                     </div>
                   </div>
@@ -190,13 +294,20 @@ const UploadProduct = () => {
                   <div className="flex justify-end gap-4.5">
                     <button
                       className="flex justify-center rounded border border-stroke px-6 py-2 font-medium text-black hover:shadow-1 dark:border-strokedark dark:text-white"
-                      type="submit"
+                      type="button"
+                      onClick={() => handleCancel()}
                     >
                       Cancel
                     </button>
                     <button
-                      className="flex justify-center rounded bg-primary px-6 py-2 font-medium text-gray hover:shadow-1"
-                      type="submit"
+                      className={`flex justify-center rounded bg-primary px-6 py-2 font-medium text-gray hover:shadow-1 ${
+                        isButtonDisabled
+                          ? 'pointer-events-none opacity-[0.6]'
+                          : ''
+                      } `}
+                      type="button"
+                      disabled={isButtonDisabled}
+                      onClick={() => handleSubmit()}
                     >
                       Save
                     </button>
